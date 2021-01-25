@@ -1,1 +1,1 @@
-export { default as createLeverClient } from './lever'
+export { default as Lever } from './lever'
