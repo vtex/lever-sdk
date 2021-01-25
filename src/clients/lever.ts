@@ -1,11 +1,4 @@
-import {
-  AppClient,
-  InstanceOptions,
-  IOContext,
-  CacheType,
-  ExternalClient,
-  IOClient,
-} from '@vtex/api'
+import { AppClient, InstanceOptions, IOContext, CacheType } from '@vtex/api'
 
 import {
   LeverInterview,
@@ -25,7 +18,7 @@ const routes = {
     `${routes.opportunity(opportunityId)}/interviews/${interviewId}`,
 }
 
-class BaseAppClient extends AppClient {
+export default class Lever extends AppClient {
   constructor(context: IOContext, options?: InstanceOptions) {
     super('hiring.lever-gateway@0.x', context, {
       ...options,
@@ -35,47 +28,29 @@ class BaseAppClient extends AppClient {
       },
     })
   }
-}
 
-class BaseExternalClient extends ExternalClient {
-  constructor(context: IOContext, options?: InstanceOptions) {
-    super('http://api.lever.co', context, {
-      ...options,
-      headers: {
-        ...options?.headers,
-        'x-vtex-use-https': 'true',
-      },
+  public getUserFromEmailCached(email: string) {
+    return this.http.get<LeverPaginatedResponse<LeverUser>>(routes.users(), {
+      params: { email },
+      cacheable: CacheType.Memory,
     })
   }
-}
 
-export default (isIO: boolean) => {
-  const Base = isIO ? BaseAppClient : BaseExternalClient
+  public getOpportunity(opportunityId: string) {
+    return this.http.get<LeverResponse<LeverOpportunity>>(
+      routes.opportunity(opportunityId)
+    )
+  }
 
-  return class Lever extends BaseExternalClient {
-    public getUserFromEmailCached(email: string) {
-      return this.http.get<LeverPaginatedResponse<LeverUser>>(routes.users(), {
-        params: { email },
-        cacheable: CacheType.Memory,
-      })
-    }
-
-    public getOpportunity(opportunityId: string) {
-      return this.http.get<LeverResponse<LeverOpportunity>>(
-        routes.opportunity(opportunityId)
-      )
-    }
-
-    public getInterview({
-      opportunityId,
-      interviewId,
-    }: {
-      opportunityId: string
-      interviewId: string
-    }) {
-      return this.http.get<LeverResponse<LeverInterview>>(
-        routes.interview(opportunityId, interviewId)
-      )
-    }
+  public getInterview({
+    opportunityId,
+    interviewId,
+  }: {
+    opportunityId: string
+    interviewId: string
+  }) {
+    return this.http.get<LeverResponse<LeverInterview>>(
+      routes.interview(opportunityId, interviewId)
+    )
   }
 }
