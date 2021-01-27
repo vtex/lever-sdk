@@ -59,6 +59,16 @@ export interface LeverInterview extends LeverEntity {
   canceledAt: number | null
   feedbackTemplate: string
   interviewers: Interviewer[]
+  feedbackForms: string[]
+  timezone: string
+  createdAt: number
+  duration: number
+  location: null
+  feedbackReminder: string
+  user: string
+  stage: string
+  postings: string[]
+  gcalEventUrl: null
 }
 
 interface Interviewer extends LeverEntity {
@@ -76,11 +86,6 @@ interface StageChange {
   toStageIndex: number
   updatedAt: number
   userId: string
-}
-
-interface Urls {
-  list: string
-  show: string
 }
 
 interface DataProtection {
@@ -105,3 +110,116 @@ type Origin =
   | 'referred'
   | 'sourced'
   | 'university'
+
+export interface LeverFeedback {
+  id: string
+  type: string
+  text: string
+  instructions: string
+  fields: Field[]
+  baseTemplateId: string
+  interview?: string
+  panel: string
+  user: string
+  createdAt: number
+  completedAt: null
+  updatedAt: number
+  deletedAt: null
+}
+
+export interface Field {
+  description: string
+  required: boolean
+  text: string
+  type: FieldType
+  id: string
+  value: ValueElement[] | null | string
+  scores?: Score[]
+  prompt?: string
+  options?: Option[]
+}
+
+export interface Option {
+  text: string
+  optionId: string
+}
+
+export interface Score {
+  text: string
+  description: string
+}
+
+type FieldType = 'score-system' | 'scorecard' | 'textarea'
+
+export interface ValueElement {
+  comment: null
+  score: null
+}
+
+export interface LeverApplication {
+  id: string
+  type: string
+  candidateId: string
+  opportunityId: string
+  posting: string | Posting
+  postingHiringManager: string
+  postingOwner: string
+  name: null
+  company: null
+  phone: null
+  email: null
+  links: any[]
+  comments: null
+  user: string
+  customQuestions: any[]
+  createdAt: number
+  archived: null
+  requisitionForHire: null
+}
+
+export interface Posting {
+  id: string
+  text: string
+  state: string
+  distributionChannels: string[]
+  user: string
+  owner: string
+  hiringManager: string
+  categories: Categories
+  tags: any[]
+  content: Content
+  followers: string[]
+  reqCode: string
+  requisitionCodes: any[]
+  urls: Urls
+  confidentiality: string
+  createdAt: number
+  updatedAt: number
+}
+
+export interface Categories {
+  commitment: string
+  department: string
+  level: null
+  location: string
+  team: string
+}
+
+export interface Content {
+  description: string
+  descriptionHtml: string
+  lists: List[]
+  closing: string
+  closingHtml: string
+}
+
+export interface List {
+  content: string
+  text: string
+}
+
+export interface Urls {
+  list: string
+  show: string
+  apply?: string
+}

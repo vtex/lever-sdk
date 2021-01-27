@@ -6,6 +6,8 @@ import {
   LeverPaginatedResponse,
   LeverResponse,
   LeverUser,
+  LeverFeedback,
+  LeverApplication,
 } from '../typings'
 
 const routes = {
@@ -14,8 +16,14 @@ const routes = {
   stage: (stageId: string) => `${routes.base()}/stages/${stageId}`,
   opportunity: (opportunityId: string) =>
     `${routes.base()}/opportunities/${opportunityId}`,
+  interviews: (opportunityId: string) =>
+    `${routes.opportunity(opportunityId)}/interviews`,
+  feedbacks: (opportunityId: string) =>
+    `${routes.opportunity(opportunityId)}/feedback/`,
+  applications: (opportunityId: string) =>
+    `${routes.opportunity(opportunityId)}/applications/`,
   interview: (opportunityId: string, interviewId: string) =>
-    `${routes.opportunity(opportunityId)}/interviews/${interviewId}`,
+    `${routes.interviews(opportunityId)}/${interviewId}`,
 }
 
 export default class Lever extends AppClient {
@@ -36,9 +44,43 @@ export default class Lever extends AppClient {
     })
   }
 
-  public getOpportunity(opportunityId: string) {
+  public getOpportunity(opportunityId: string, expand?: string[]) {
     return this.http.get<LeverResponse<LeverOpportunity>>(
-      routes.opportunity(opportunityId)
+      routes.opportunity(opportunityId),
+      {
+        params: {
+          expand,
+        },
+      }
+    )
+  }
+
+  public getInterviews(opportunityId: string) {
+    return this.http.get<LeverPaginatedResponse<LeverInterview>>(
+      routes.interviews(opportunityId)
+    )
+  }
+
+  public getFeedbacks(opportunityId: string, expand?: string[]) {
+    return this.http.get<LeverPaginatedResponse<LeverFeedback>>(
+      routes.feedbacks(opportunityId),
+      {
+        params: {
+          expand,
+        },
+      }
+    )
+  }
+
+  public getApplications(opportunityId: string, expand?: string[]) {
+    return this.http.get<LeverPaginatedResponse<LeverApplication>>(
+      routes.applications(opportunityId),
+      {
+        cacheable: CacheType.Memory,
+        params: {
+          expand,
+        },
+      }
     )
   }
 
