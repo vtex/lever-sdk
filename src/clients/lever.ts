@@ -8,6 +8,7 @@ import {
   LeverUser,
   LeverFeedback,
   LeverApplication,
+  LeverNote,
 } from '../typings'
 
 const routes = {
@@ -24,6 +25,8 @@ const routes = {
     `${routes.opportunity(opportunityId)}/applications/`,
   interview: (opportunityId: string, interviewId: string) =>
     `${routes.interviews(opportunityId)}/${interviewId}`,
+  notes: (opportunityId: string) =>
+    `${routes.opportunity(opportunityId)}/notes`,
 }
 
 export default class Lever extends AppClient {
@@ -81,6 +84,12 @@ export default class Lever extends AppClient {
           expand,
         },
       }
+    )
+  }
+
+  public getNotes(opportunityId: string) {
+    return this.http.get<LeverPaginatedResponse<LeverNote>>(
+      routes.notes(opportunityId)
     )
   }
 
