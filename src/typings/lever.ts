@@ -123,7 +123,7 @@ export interface LeverFeedback {
   baseTemplateId: string
   interview?: string
   panel: string
-  user: string
+  user: string | LeverUser
   createdAt: number
   completedAt: number | null
   updatedAt: number
