@@ -117,7 +117,7 @@ const fetchAll = async <T extends LeverEntity>(
     params: Record<string, string>
   ) => Promise<LeverPaginatedResponse<T>>,
   params: Record<string, string>
-): Promise<any> => {
+): Promise<T[]> => {
   params.limit = '100'
 
   const allItems: T[] = []
