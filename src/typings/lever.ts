@@ -1,9 +1,10 @@
-type LeverEntity = {
+export type LeverEntity = {
   id: string
 }
 
 export type LeverPaginatedResponse<T extends LeverEntity> = {
   hasNext: boolean
+  next?: string
   data: T[]
 }
 
@@ -164,7 +165,7 @@ export interface LeverApplication {
   type: string
   candidateId: string
   opportunityId: string
-  posting: string | Posting
+  posting: string | LeverPosting
   postingHiringManager: string
   postingOwner: string
   name: string | null
@@ -190,7 +191,7 @@ export interface LeverApplication {
   } | null
 }
 
-export interface Posting {
+export interface LeverPosting {
   id: string
   text: string
   state: string
