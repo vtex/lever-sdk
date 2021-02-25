@@ -32,7 +32,10 @@ export interface LeverOpportunity extends LeverEntity {
   phones: Phone[]
   emails: string[]
   links: string[]
-  archived: null
+  archived: {
+    reason: string
+    archivedAt: number
+  } | null
   tags: string[]
   sources: string[]
   stageChanges: StageChange[]
@@ -45,7 +48,7 @@ export interface LeverOpportunity extends LeverEntity {
   updatedAt: number
   lastInteractionAt: number
   lastAdvancedAt: number
-  snoozedUntil: null
+  snoozedUntil: number | null
   urls: Urls
   isAnonymized: boolean
   dataProtection: DataProtection | null
@@ -63,12 +66,12 @@ export interface LeverInterview extends LeverEntity {
   timezone: string
   createdAt: number
   duration: number
-  location: null
+  location: string | null
   feedbackReminder: string
   user: string
   stage: string
   postings: string[]
-  gcalEventUrl: null
+  gcalEventUrl: string | null
 }
 
 interface Interviewer extends LeverEntity {
@@ -120,11 +123,11 @@ export interface LeverFeedback {
   baseTemplateId: string
   interview?: string
   panel: string
-  user: string
+  user: string | LeverUser
   createdAt: number
-  completedAt: null
+  completedAt: number | null
   updatedAt: number
-  deletedAt: null
+  deletedAt: number | null
 }
 
 export interface Field {
@@ -152,8 +155,8 @@ export interface Score {
 type FieldType = 'score-system' | 'scorecard' | 'textarea'
 
 export interface ValueElement {
-  comment: null
-  score: null
+  comment: string | null
+  score: string | null
 }
 
 export interface LeverApplication {
@@ -164,17 +167,27 @@ export interface LeverApplication {
   posting: string | Posting
   postingHiringManager: string
   postingOwner: string
-  name: null
-  company: null
-  phone: null
-  email: null
+  name: string | null
+  company: string | null
+  phone: {
+    type: string | null
+    value: string | null
+  } | null
+  email: string | null
   links: any[]
-  comments: null
+  comments: string | null
   user: string
   customQuestions: any[]
   createdAt: number
-  archived: null
-  requisitionForHire: null
+  archived: {
+    archivedAt: number
+    reason: string
+  } | null
+  requisitionForHire: {
+    id: string
+    requisitionCode: string
+    hiringManagerOnHire: string
+  } | null
 }
 
 export interface Posting {
@@ -200,7 +213,7 @@ export interface Posting {
 export interface Categories {
   commitment: string
   department: string
-  level: null
+  level: string | null
   location: string
   team: string
 }
