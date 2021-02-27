@@ -74,6 +74,27 @@ export interface LeverInterview extends LeverEntity {
   gcalEventUrl: string | null
 }
 
+export interface LeverNote extends LeverEntity {
+  text: string
+  fields: NoteField[]
+  user: string
+  secret: boolean
+  completedAt: number
+  createdAt: number
+  deletedAt: number
+}
+
+export interface NoteField {
+  type: string
+  text: string
+  value: string
+  createdAt: number
+  user: string
+  stage: string
+  description?: string
+  score?: number
+}
+
 interface Interviewer extends LeverEntity {
   name: string
   email: string
