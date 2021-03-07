@@ -103,12 +103,14 @@ export default class Lever extends AppClient {
   public getPostings(params: Record<string, string>) {
     return this.http.get<LeverPaginatedResponse<LeverPosting>>(
       routes.postings(),
-      params
+      {
+        params
+      }
     )
   }
 
   public getAllPostings(params: Record<string, string>) {
-    return fetchAll(this.getPostings, params)
+    return fetchAll(this.getPostings.bind(this), params)
   }
 }
 
@@ -121,7 +123,7 @@ const fetchAll = async <T extends LeverEntity>(
   params.limit = '100'
 
   const allItems: T[] = []
-  let maxIterations = 100
+  let maxIterations = 10
 
   let lastResult: LeverPaginatedResponse<T> = { data: [], hasNext: true }
 
