@@ -104,7 +104,7 @@ export default class Lever extends AppClient {
     return this.http.get<LeverPaginatedResponse<LeverPosting>>(
       routes.postings(),
       {
-        params
+        params,
       }
     )
   }
