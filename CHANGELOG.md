@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-03-08
+
+## [2.1.0-beta] - 2021-03-08
+### Added
+- `getOffers` method on Lever Client.
+
 ## [2.0.1] - 2021-03-07
 
 ## [2.0.0] - 2021-02-25
