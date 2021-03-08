@@ -237,3 +237,40 @@ export interface Urls {
   show: string
   apply?: string
 }
+
+export interface LeverOffer {
+  id: string
+  posting: string
+  createdAt: number
+  status: string
+  creator: string
+  fields: OfferField[]
+  signatures: Signatures
+  approved: boolean
+  approvedAt: number
+  sentAt: number
+  sentDocument: Document
+  signedDocument: Document
+}
+
+export interface OfferField {
+  text: string
+  identifier: string
+  value: number | null | string
+}
+
+export interface Document {
+  fileName: string
+  uploadedAt: number
+  downloadUrl: string
+}
+
+export interface Signatures {
+  candidate: Candidate
+}
+
+export interface Candidate {
+  role: string
+  name: null
+  email: null
+}

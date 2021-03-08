@@ -11,6 +11,7 @@ import {
   LeverApplication,
   LeverEntity,
   LeverPosting,
+  LeverOffer,
 } from '../typings'
 
 const routes = {
@@ -28,6 +29,8 @@ const routes = {
     `${routes.opportunity(opportunityId)}/applications/`,
   interview: (opportunityId: string, interviewId: string) =>
     `${routes.interviews(opportunityId)}/${interviewId}`,
+  offers: (opportunityId: string) =>
+    `${routes.opportunity(opportunityId)}/offers/`,
 }
 
 export default class Lever extends AppClient {
@@ -111,6 +114,15 @@ export default class Lever extends AppClient {
 
   public getAllPostings(params: Record<string, string>) {
     return fetchAll(this.getPostings.bind(this), params)
+  }
+
+  public getOffers(opportunityId: string, params: Record<string, string> = {}) {
+    return this.http.get<LeverPaginatedResponse<LeverOffer>>(
+      routes.offers(opportunityId),
+      {
+        params,
+      }
+    )
   }
 }
 
