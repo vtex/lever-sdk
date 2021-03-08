@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { AppClient, InstanceOptions, IOContext, CacheType } from '@vtex/api'
 
 import {
@@ -8,11 +9,14 @@ import {
   LeverUser,
   LeverFeedback,
   LeverApplication,
+  LeverEntity,
+  LeverPosting,
 } from '../typings'
 
 const routes = {
   base: () => '/proxy/lever',
   users: () => `${routes.base()}/users`,
+  postings: () => `${routes.base()}/postings`,
   stage: (stageId: string) => `${routes.base()}/stages/${stageId}`,
   opportunity: (opportunityId: string) =>
     `${routes.base()}/opportunities/${opportunityId}`,
@@ -95,4 +99,46 @@ export default class Lever extends AppClient {
       routes.interview(opportunityId, interviewId)
     )
   }
+
+  public getPostings(params: Record<string, string>) {
+    return this.http.get<LeverPaginatedResponse<LeverPosting>>(
+      routes.postings(),
+      {
+        params,
+      }
+    )
+  }
+
+  public getAllPostings(params: Record<string, string>) {
+    return fetchAll(this.getPostings.bind(this), params)
+  }
+}
+
+const fetchAll = async <T extends LeverEntity>(
+  fetcher: (
+    params: Record<string, string>
+  ) => Promise<LeverPaginatedResponse<T>>,
+  params: Record<string, string>
+): Promise<T[]> => {
+  params.limit = '100'
+
+  const allItems: T[] = []
+  let maxIterations = 10
+
+  let lastResult: LeverPaginatedResponse<T> = { data: [], hasNext: true }
+
+  while (lastResult.hasNext === true) {
+    // eslint-disable-next-line no-await-in-loop
+    lastResult = await fetcher(params)
+
+    allItems.push(...lastResult.data)
+    params.offset = lastResult.next ?? ''
+
+    maxIterations--
+    if (maxIterations <= 0) {
+      throw new Error('Maximum iteration reached')
+    }
+  }
+
+  return allItems
 }
