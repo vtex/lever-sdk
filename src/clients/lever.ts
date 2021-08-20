@@ -32,6 +32,8 @@ const routes = {
   offers: (opportunityId: string) =>
     `${routes.opportunity(opportunityId)}/offers/`,
   opportunities: () => `${routes.base()}/opportunities/`,
+  addTags: (opportunityId: string)  => `${routes.base()}/opportunities/${opportunityId}/addTags`,
+  removeTags: (opportunityId: string)  => `${routes.base()}/opportunities/${opportunityId}/removeTags`
 }
 
 export default class Lever extends AppClient {
@@ -131,6 +133,24 @@ export default class Lever extends AppClient {
       routes.opportunities(),
       {
         params,
+      }
+    )
+  }
+
+  public addTags(opportunityId: string, tags: string[]) {
+    return this.http.post<LeverResponse<LeverOpportunity>>(
+      routes.addTags(opportunityId),
+      {
+        tags,
+      }
+    )
+  }
+
+  public removeTags(opportunityId: string, tags: string[]) {
+    return this.http.post<LeverResponse<LeverOpportunity>>(
+      routes.removeTags(opportunityId),
+      {
+        tags,
       }
     )
   }

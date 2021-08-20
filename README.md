@@ -27,6 +27,6 @@ Feel free to **add new methods** to our code.
 
 We have a Github Action configured to **release the package on NPM for every Release tag** pushed into the repository. So, in order to have this project published:
 1. Merge the Pull Request on the main branch, after having your changes approved.
-2. Run `git checkout master && git pull` on your local repository.
+2. Run `git checkout main && git pull` on your local repository.
 3. Use the [releasy](https://www.npmjs.com/package/releasy) tool to push a new release (_e.g_: `releasy minor --stable`).
 4. Check the result of the process on Github checking the status on the latest commit.
