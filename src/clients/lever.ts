@@ -32,8 +32,10 @@ const routes = {
   offers: (opportunityId: string) =>
     `${routes.opportunity(opportunityId)}/offers/`,
   opportunities: () => `${routes.base()}/opportunities/`,
-  addTags: (opportunityId: string)  => `${routes.base()}/opportunities/${opportunityId}/addTags`,
-  removeTags: (opportunityId: string)  => `${routes.base()}/opportunities/${opportunityId}/removeTags`
+  addTags: (opportunityId: string) =>
+    `${routes.base()}/opportunities/${opportunityId}/addTags`,
+  removeTags: (opportunityId: string) =>
+    `${routes.base()}/opportunities/${opportunityId}/removeTags`,
 }
 
 export default class Lever extends AppClient {
