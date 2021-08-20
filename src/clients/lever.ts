@@ -130,7 +130,7 @@ export default class Lever extends AppClient {
     )
   }
 
-  public getOpportunities(params: Record<string, string> = {}) {
+  public getOpportunities(params: Record<string, string | string[]> = {}) {
     return this.http.get<LeverPaginatedResponse<LeverOpportunity>>(
       routes.opportunities(),
       {
