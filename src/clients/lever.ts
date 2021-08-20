@@ -31,6 +31,7 @@ const routes = {
     `${routes.interviews(opportunityId)}/${interviewId}`,
   offers: (opportunityId: string) =>
     `${routes.opportunity(opportunityId)}/offers/`,
+  opportunities: () => `${routes.base()}/opportunities/`,
 }
 
 export default class Lever extends AppClient {
@@ -119,6 +120,15 @@ export default class Lever extends AppClient {
   public getOffers(opportunityId: string, params: Record<string, string> = {}) {
     return this.http.get<LeverPaginatedResponse<LeverOffer>>(
       routes.offers(opportunityId),
+      {
+        params,
+      }
+    )
+  }
+
+  public getOpportunities(params: Record<string, string> = {}) {
+    return this.http.get<LeverPaginatedResponse<LeverOpportunity>>(
+      routes.opportunities(),
       {
         params,
       }
